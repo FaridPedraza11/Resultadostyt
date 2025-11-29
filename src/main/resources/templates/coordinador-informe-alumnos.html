@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Informe de alumnos - TYT</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            background-color: #f3f5fb;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .shell {
+            max-width: 1250px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .btn-secondary {
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: none;
+            background: #e5e7eb;
+            color: #111827;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 18px 20px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        th, td {
+            padding: 6px 4px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: center;
+        }
+
+        th {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: #6b7280;
+        }
+
+        .row-header {
+            text-align: left;
+        }
+
+        .empty-msg {
+            font-size: 13px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+
+    <div class="header">
+        <div>
+            <div class="title">Informe de alumnos</div>
+            <div class="subtitle">
+                Visualiza los puntajes por materia, el nivel alcanzado y el promedio global de cada estudiante.
+            </div>
+        </div>
+        <a th:href="@{/coordinador/dashboard}" style="text-decoration:none;">
+            <button class="btn-secondary" type="button">Volver al panel</button>
+        </a>
+    </div>
+
+    <div class="card">
+        <div th:if="${#lists.isEmpty(alumnos)}" class="empty-msg">
+            No hay alumnos registrados. Primero debes crear alumnos desde la opción "Gestión de alumnos".
+        </div>
+
+        <div th:if="${!#lists.isEmpty(alumnos)}" style="overflow-x:auto;">
+            <table>
+                <thead>
+                <tr>
+                    <th>Doc</th>
+                    <th>Nombre</th>
+                    <th>Registro</th>
+
+                    <th>Com. escrita</th>
+                    <th>Nivel</th>
+
+                    <th>Raz. cuant.</th>
+                    <th>Nivel</th>
+
+                    <th>Lectura crítica</th>
+                    <th>Nivel</th>
+
+                    <th>Comp. ciudadanas</th>
+                    <th>Nivel</th>
+
+                    <th>Inglés</th>
+                    <th>Nivel</th>
+
+                    <th>Form. proyectos ing.</th>
+                    <th>Nivel</th>
+
+                    <th>Pens. cient.-mat. y estad.</th>
+                    <th>Nivel</th>
+
+                    <th>Diseño software</th>
+                    <th>Nivel</th>
+
+                    <th>Promedio global</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="al : ${alumnos}">
+                    <!-- Datos básicos -->
+                    <td class="row-header" th:text="${al.numeroDocumento}">123</td>
+                    <td class="row-header" th:text="${al.nombresApellidos}">Nombre Apellido</td>
+                    <td th:text="${al.numeroRegistro}">REG-001</td>
+
+                    <!-- Comunicación escrita -->
+                    <td th:text="${al.comunicacionEscrita}">0</td>
+                    <td th:text="${al.nivelComunicacionEscrita}">Nivel 1</td>
+
+                    <!-- Razonamiento cuantitativo -->
+                    <td th:text="${al.razonamientoCuantitativo}">0</td>
+                    <td th:text="${al.nivelRazonamientoCuantitativo}">Nivel 1</td>
+
+                    <!-- Lectura crítica -->
+                    <td th:text="${al.lecturaCritica}">0</td>
+                    <td th:text="${al.nivelLecturaCritica}">Nivel 1</td>
+
+                    <!-- Competencias ciudadanas -->
+                    <td th:text="${al.competenciasCiudadanas}">0</td>
+                    <td th:text="${al.nivelCompetenciasCiudadanas}">Nivel 1</td>
+
+                    <!-- Inglés -->
+                    <td th:text="${al.ingles}">0</td>
+                    <td th:text="${al.nivelIngles}">Nivel 1</td>
+
+                    <!-- Formulación proyectos ingeniería -->
+                    <td th:text="${al.formulacionProyectosIngenieria}">0</td>
+                    <td th:text="${al.nivelFormulacionProyectosIngenieria}">Nivel 1</td>
+
+                    <!-- Pensamiento científico-matemático y estadística -->
+                    <td th:text="${al.pensamientoCientificoMatematicoEstadistica}">0</td>
+                    <td th:text="${al.nivelPensamientoCientificoMatematicoEstadistica}">Nivel 1</td>
+
+                    <!-- Diseño de software -->
+                    <td th:text="${al.disenoSoftware}">0</td>
+                    <td th:text="${al.nivelDisenoSoftware}">Nivel 1</td>
+
+                    <!-- Promedio global -->
+                    <td th:text="${al.promedioGlobal}">0.0</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

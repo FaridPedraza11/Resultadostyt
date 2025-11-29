@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados del estudiante - TYT</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            background-color: #f3f5fb;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .shell {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 18px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 18px 20px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px 18px;
+            font-size: 13px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th, td {
+            padding: 6px 4px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: #6b7280;
+        }
+
+        .estado-paso {
+            font-weight: 600;
+            color: #166534;
+        }
+
+        .estado-nopaso {
+            font-weight: 600;
+            color: #b91c1c;
+        }
+
+        .beneficio-text {
+            font-size: 13px;
+            color: #111827;
+        }
+
+        .footer-actions {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .btn-secondary {
+            padding: 7px 14px;
+            border-radius: 999px;
+            border: none;
+            background: #e5e7eb;
+            color: #111827;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        @media (max-width: 750px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+
+    <div class="header">
+        <div class="title">Resultados de las pruebas TYT</div>
+        <div class="subtitle">
+            A continuación se presenta el resumen detallado de tus puntajes, niveles por competencia y beneficios obtenidos.
+        </div>
+    </div>
+
+    <!-- Datos básicos del alumno -->
+    <div class="card" th:if="${alumno != null}">
+        <div class="section-title">Datos del estudiante</div>
+        <div class="info-grid">
+            <div>
+                <span class="info-label">Nombre: </span>
+                <span th:text="${alumno.nombresApellidos}">Nombre Apellido</span>
+            </div>
+            <div>
+                <span class="info-label">Tipo documento: </span>
+                <span th:text="${alumno.tipoDocumento}">CC</span>
+            </div>
+            <div>
+                <span class="info-label">Número documento: </span>
+                <span th:text="${alumno.numeroDocumento}">123456</span>
+            </div>
+            <div>
+                <span class="info-label">Número de registro: </span>
+                <span th:text="${alumno.numeroRegistro}">REG-001</span>
+            </div>
+            <div>
+                <span class="info-label">Correo: </span>
+                <span th:text="${alumno.correo}">correo@ejemplo.com</span>
+            </div>
+            <div>
+                <span class="info-label">Teléfono: </span>
+                <span th:text="${alumno.telefono}">3000000000</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Puntajes y niveles por materia -->
+    <div class="card" th:if="${alumno != null}">
+        <div class="section-title">Puntajes por competencia</div>
+        <table>
+            <thead>
+            <tr>
+                <th>Competencia</th>
+                <th>Puntaje (0-300)</th>
+                <th>Nivel</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Comunicación escrita</td>
+                <td th:text="${alumno.comunicacionEscrita}">0</td>
+                <td th:text="${alumno.nivelComunicacionEscrita}">Nivel 1</td>
+            </tr>
+            <tr>
+                <td>Razonamiento cuantitativo</td>
+                <td th:text="${alumno.razonamientoCuantitativo}">0</td>
+                <td th:text="${alumno.nivelRazonamientoCuantitativo}">Nivel 1</td>
+            </tr>
+            <tr>
+                <td>Lectura crítica</td>
+                <td th:text="${alumno.lecturaCritica}">0</td>
+                <td th:text="${alumno.nivelLecturaCritica}">Nivel 1</td>
+            </tr>
+            <tr>
+                <td>Competencias ciudadanas</td>
+                <td th:text="${alumno.competenciasCiudadanas}">0</td>
+                <td th:text="${alumno.nivelCompetenciasCiudadanas}">Nivel 1</td>
+            </tr>
+            <tr>
+                <td>Inglés</td>
+                <td th:text="${alumno.ingles}">0</td>
+                <td th:text="${alumno.nivelIngles}">Nivel 1</td>
+            </tr>
+            <tr>
+                <td>Formulación de proyectos de ingeniería</td>
+                <td th:text="${alumno.formulacionProyectosIngenieria}">0</td>
+                <td th:text="${alumno.nivelFormulacionProyectosIngenieria}">Nivel 1</td>
+            </tr>
+            <tr>
+                <td>Pensamiento científico-matemático y estadística</td>
+                <td th:text="${alumno.pensamientoCientificoMatematicoEstadistica}">0</td>
+                <td th:text="${alumno.nivelPensamientoCientificoMatematicoEstadistica}">Nivel 1</td>
+            </tr>
+            <tr>
+                <td>Diseño de software</td>
+                <td th:text="${alumno.disenoSoftware}">0</td>
+                <td th:text="${alumno.nivelDisenoSoftware}">Nivel 1</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Puntaje global y beneficios -->
+    <div class="card" th:if="${alumno != null}">
+        <div class="section-title">Resumen global</div>
+
+        <p>
+            <span class="info-label">Puntaje global: </span>
+            <span th:text="${alumno.promedioGlobal}">0.0</span>
+        </p>
+
+        <p>
+            <span class="info-label">Estado de graduación: </span>
+            <span th:text="${alumno.estadoGraduacion}"
+                  th:classappend="${alumno.estadoGraduacion}=='Pasó' ? ' estado-paso' : ' estado-nopaso'">
+                Pasó
+            </span>
+        </p>
+
+        <!-- Mensaje si no pasó -->
+        <p th:if="${alumno.estadoGraduacion}=='No pasó'" style="color:#b91c1c; font-size:13px;">
+            No alcanzaste el puntaje mínimo global (80 puntos) para aprobar las pruebas desde este criterio.
+        </p>
+
+        <p class="beneficio-text">
+            <span class="info-label">Beneficio obtenido: </span>
+            <span th:text="${alumno.beneficio}">
+                Sin beneficio especial.
+            </span>
+        </p>
+    </div>
+
+    <div class="footer-actions">
+        <a th:href="@{/}">
+            <button class="btn-secondary" type="button">Volver al inicio</button>
+        </a>
+    </div>
+
+</div>
+</body>
+</html>

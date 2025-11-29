@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema Resultados </title>
+    <style>
+        :root {
+            --bg-page: #f3f5fb;
+            --card-bg: #ffffff;
+            --accent: #234e9b;
+            --accent-soft: #e1e8ff;
+            --text-main: #1f2933;
+            --text-muted: #6b7280;
+            --border-soft: #d1d5db;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #dde7ff 0, #f3f5fb 55%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: var(--text-main);
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            color: var(--accent);
+        }
+
+        .brand-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent), #4f46e5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .brand-text {
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            font-size: 15px;
+            text-transform: uppercase;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+            overflow: hidden;
+        }
+
+        /* Lado izquierdo (info) */
+        .card-left {
+            padding: 28px 30px;
+            border-right: 1px solid var(--border-soft);
+            background: radial-gradient(circle at top left, #eef2ff 0, #ffffff 60%);
+        }
+
+        .card-left h1 {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        .card-left p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 14px;
+        }
+
+        .pill-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin-top: 8px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .benefits-bullet {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.6;
+        }
+
+        /* Lado derecho (formulario) */
+        .card-right {
+            padding: 28px 30px 26px;
+        }
+
+        .card-right h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+		
+		.error-box {
+		    margin-bottom: 10px;
+		    padding: 8px 10px;
+		    border-radius: 8px;
+		    background-color: #fee2e2;
+		    border: 1px solid #fecaca;
+		    color: #b91c1c;
+		    font-size: 12px;
+		}
+
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #111827;
+        }
+
+        select,
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 9px 10px;
+            border-radius: 9px;
+            border: 1px solid var(--border-soft);
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+            background-color: #f9fafb;
+        }
+
+        select:hover,
+        input[type="text"]:hover,
+        input[type="password"]:hover {
+            background-color: #f3f4f6;
+        }
+
+        select:focus,
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+            background-color: #ffffff;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .btn {
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--accent), #4f46e5);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.28);
+            transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+        }
+
+        .btn:hover {
+            filter: brightness(1.04);
+            transform: translateY(-1px);
+            box-shadow: 0 14px 30px rgba(79, 70, 229, 0.33);
+        }
+
+        .btn:active {
+            transform: translateY(0px) scale(0.99);
+            box-shadow: 0 8px 18px rgba(79, 70, 229, 0.3);
+        }
+
+        .footnote {
+            margin-top: 10px;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        @media (max-width: 780px) {
+            .card {
+                grid-template-columns: 1fr;
+            }
+
+            .card-left {
+                border-right: none;
+                border-bottom: 1px solid var(--border-soft);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <!-- Encabezado pequeño tipo institucional -->
+    <div class="brand">
+        <div class="brand-logo">SR</div>
+        <div class="brand-text">Sistema de Resultados</div>
+    </div>
+
+    <div class="card">
+        <!-- Lado informativo -->
+        <div class="card-left">
+            <div class="pill">
+                <span class="pill-dot"></span>
+                Plataforma académica
+            </div>
+            <h1>Consulta y gestión de resultados</h1>
+            <p>
+                Esta plataforma permite al <strong>administrador</strong> y al
+                <strong>coordinador</strong> gestionar los resultados de las pruebas,
+                y a los <strong>estudiantes</strong> consultar su desempeño y verificar
+                si aplican a beneficios.
+            </p>
+
+            <ul class="benefits-list">
+                <li>
+                    <span class="benefits-bullet"></span>
+                    Registro y administración de estudiantes.
+                </li>
+                <li>
+                    <span class="benefits-bullet"></span>
+                    Carga y visualización de resultados detallados.
+                </li>
+                <li>
+                    <span class="benefits-bullet"></span>
+                    Consulta rápida por número de identificación.
+                </li>
+            </ul>
+        </div>
+
+        <!-- Lado formulario -->
+        <div class="card-right">
+            <h2>Ingreso al sistema</h2>
+            <p class="helper-text">
+                Selecciona tu tipo de usuario. Si eres <strong>Alumno</strong>, ingresa
+                únicamente tu número de identificación.
+            </p>
+			
+			<div th:if="${error != null}" class="error-box">
+			    <span th:text="${error}"></span>
+			</div>
+
+            <form th:action="@{/login}" method="post">
+                <!-- Tipo de usuario -->
+                <div class="form-group">
+                    <label for="tipoUsuario">Tipo de usuario</label>
+                    <select id="tipoUsuario" name="tipoUsuario" onchange="cambiarFormulario()" required>
+                        <option value="" selected disabled>Selecciona una opción</option>
+                        <option value="ADMIN">Administrador</option>
+                        <option value="COORDINADOR">Coordinador</option>
+                        <option value="ALUMNO">Alumno</option>
+                    </select>
+                </div>
+
+                <!-- ADMIN / COORDINADOR -->
+                <div id="camposAdminCoord" style="display:none;">
+                    <div class="form-group">
+                        <label for="usuario">Usuario</label>
+                        <input type="text" id="usuario" name="usuario"
+                               placeholder="Ej: admin01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contrasena">Contraseña</label>
+                        <input type="password" id="contrasena" name="contrasena"
+                               placeholder="Ingresa tu contraseña">
+                    </div>
+                </div>
+
+                <!-- ALUMNO -->
+                <div id="camposAlumno" style="display:none;">
+                    <div class="form-group">
+                        <label for="identificacion">Número de identificación</label>
+                        <input type="text" id="identificacion" name="identificacion"
+                               placeholder="Documento del estudiante">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Ingresar</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function cambiarFormulario() {
+        const tipo = document.getElementById("tipoUsuario").value;
+        const divAdminCoord = document.getElementById("camposAdminCoord");
+        const divAlumno = document.getElementById("camposAlumno");
+
+        if (tipo === "ADMIN" || tipo === "COORDINADOR") {
+            divAdminCoord.style.display = "block";
+            divAlumno.style.display = "none";
+        } else if (tipo === "ALUMNO") {
+            divAdminCoord.style.display = "none";
+            divAlumno.style.display = "block";
+        } else {
+            divAdminCoord.style.display = "none";
+            divAlumno.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>

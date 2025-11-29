@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de alumnos - TYT</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            background-color: #f3f5fb;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .shell {
+            max-width: 1150px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .btn-secondary {
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: none;
+            background: #e5e7eb;
+            color: #111827;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.3fr 1.1fr;
+            gap: 18px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 18px 20px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+        }
+
+        h2 {
+            margin: 0 0 6px;
+            font-size: 18px;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        th, td {
+            padding: 6px 4px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: #6b7280;
+        }
+
+        .actions a {
+            font-size: 11px;
+            margin-right: 6px;
+            text-decoration: none;
+        }
+
+        .link-edit {
+            color: #2563eb;
+        }
+
+        .link-delete {
+            color: #b91c1c;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 3px;
+            color: #111827;
+        }
+
+        input[type="text"], input[type="number"], input[type="email"] {
+            width: 100%;
+            padding: 6px 8px;
+            border-radius: 9px;
+            border: 1px solid #d1d5db;
+            font-size: 12px;
+            background-color: #f9fafb;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+            background-color: #ffffff;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 8px;
+        }
+
+        .btn-primary {
+            margin-top: 8px;
+            width: 100%;
+            padding: 9px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg,#234e9b,#4f46e5);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .alert {
+            padding: 8px 10px;
+            border-radius: 9px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .alert-success {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .alert-error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        @media (max-width: 1000px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+
+    <div class="header">
+        <div>
+            <div class="title">Gestión de alumnos</div>
+            <div class="subtitle">
+                Registra, actualiza o elimina alumnos y sus puntajes en las diferentes competencias.
+            </div>
+        </div>
+        <a th:href="@{/coordinador/dashboard}" style="text-decoration:none;">
+            <button class="btn-secondary" type="button">Volver al panel</button>
+        </a>
+    </div>
+
+    <div th:if="${mensaje != null}" class="alert alert-success">
+        <span th:text="${mensaje}"></span>
+    </div>
+    <div th:if="${mensajeError != null}" class="alert alert-error">
+        <span th:text="${mensajeError}"></span>
+    </div>
+
+    <div class="layout">
+
+        <!-- Tabla de alumnos -->
+        <div class="card">
+            <h2>Alumnos registrados</h2>
+            <p class="helper-text">Resumen básico de los alumnos. Los puntajes detallados se pueden editar en el formulario.</p>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Documento</th>
+                    <th>Nombre</th>
+                    <th>Registro</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="al : ${alumnos}">
+                    <td th:text="${al.id}">1</td>
+                    <td th:text="${al.numeroDocumento}">12345</td>
+                    <td th:text="${al.nombresApellidos}">Nombre Apellido</td>
+                    <td th:text="${al.numeroRegistro}">REG-001</td>
+                    <td class="actions">
+                        <a th:href="@{'/coordinador/alumnos'(id=${al.id})}" class="link-edit">Editar</a>
+                        <a th:href="@{'/coordinador/alumnos/eliminar/' + ${al.id}}"
+                           class="link-delete"
+                           onclick="return confirm('¿Seguro que deseas eliminar este alumno?');">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(alumnos)}">
+                    <td colspan="5">No hay alumnos registrados.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Formulario alumno -->
+        <div class="card">
+            <h2 th:text="${alumnoForm.id == null} ? 'Nuevo alumno' : 'Editar alumno'">Nuevo alumno</h2>
+            <p class="helper-text">
+                Completa los datos básicos y los puntajes de cada competencia (0 a 300).
+            </p>
+
+            <form th:action="@{/coordinador/alumnos/guardar}" method="post"
+                  th:object="${alumnoForm}">
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tipoDocumento">Tipo documento</label>
+                        <input type="text" id="tipoDocumento" th:field="*{tipoDocumento}"
+                               placeholder="CC, TI, CE...">
+                    </div>
+                    <div class="form-group">
+                        <label for="numeroDocumento">Número documento</label>
+                        <input type="text" id="numeroDocumento" th:field="*{numeroDocumento}"
+                               placeholder="Documento del alumno">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nombresApellidos">Nombres y apellidos</label>
+                    <input type="text" id="nombresApellidos" th:field="*{nombresApellidos}"
+                           placeholder="Nombre completo">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="correo">Correo</label>
+                        <input type="email" id="correo" th:field="*{correo}"
+                               placeholder="correo@ejemplo.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="text" id="telefono" th:field="*{telefono}"
+                               placeholder="Número de contacto">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="numeroRegistro">Número de registro</label>
+                    <input type="text" id="numeroRegistro" th:field="*{numeroRegistro}"
+                           placeholder="Código o registro del estudiante">
+                </div>
+
+                <hr style="margin:10px 0; border:none; border-top:1px solid #e5e7eb;">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="comunicacionEscrita">Comunicación escrita</label>
+                        <input type="number" id="comunicacionEscrita" th:field="*{comunicacionEscrita}"
+                               min="0" max="300">
+                    </div>
+                    <div class="form-group">
+                        <label for="razonamientoCuantitativo">Razonamiento cuantitativo</label>
+                        <input type="number" id="razonamientoCuantitativo" th:field="*{razonamientoCuantitativo}"
+                               min="0" max="300">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="lecturaCritica">Lectura crítica</label>
+                        <input type="number" id="lecturaCritica" th:field="*{lecturaCritica}"
+                               min="0" max="300">
+                    </div>
+                    <div class="form-group">
+                        <label for="competenciasCiudadanas">Competencias ciudadanas</label>
+                        <input type="number" id="competenciasCiudadanas" th:field="*{competenciasCiudadanas}"
+                               min="0" max="300">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ingles">Inglés</label>
+                        <input type="number" id="ingles" th:field="*{ingles}"
+                               min="0" max="300">
+                    </div>
+                    <div class="form-group">
+                        <label for="formulacionProyectosIngenieria">Formulación de proyectos de ingeniería</label>
+                        <input type="number" id="formulacionProyectosIngenieria"
+                               th:field="*{formulacionProyectosIngenieria}"
+                               min="0" max="300">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pensamientoCientificoMatematicoEstadistica">
+                            Pensamiento científico-matemático y estadística
+                        </label>
+                        <input type="number" id="pensamientoCientificoMatematicoEstadistica"
+                               th:field="*{pensamientoCientificoMatematicoEstadistica}"
+                               min="0" max="300">
+                    </div>
+                    <div class="form-group">
+                        <label for="disenoSoftware">Diseño de software</label>
+                        <input type="number" id="disenoSoftware" th:field="*{disenoSoftware}"
+                               min="0" max="300">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span th:text="${alumnoForm.id == null} ? 'Crear alumno' : 'Guardar cambios'">
+                        Crear alumno
+                    </span>
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

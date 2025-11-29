@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Coordinador - TYT</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            background-color: #f3f5fb;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 24px 28px;
+            max-width: 820px;
+            width: 100%;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #dcfce7;
+            color: #15803d;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            margin: 0 0 6px;
+            font-size: 22px;
+        }
+
+        p {
+            margin: 0 0 14px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .options {
+            margin-top: 14px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .option-card {
+            background: #f9fafb;
+            border-radius: 14px;
+            padding: 12px 14px 14px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .option-card h2 {
+            font-size: 15px;
+            margin: 0 0 4px;
+        }
+
+        .option-card p {
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 999px;
+            border: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg,#047857,#16a34a);
+            color: #ffffff;
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+        }
+
+        .footer {
+            margin-top: 12px;
+            text-align: right;
+        }
+
+        .footer a {
+            font-size: 12px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="tag">Coordinador</div>
+    <h1>Panel del coordinador</h1>
+    <p>
+        Desde este panel puedes administrar los estudiantes y sus resultados de las pruebas TYT,
+        así como consultar informes académicos y beneficios.
+    </p>
+
+    <div class="options">
+        <!-- Opción 1: CRUD de alumnos -->
+        <div class="option-card">
+            <h2>CRUD de alumnos</h2>
+            <p>Registrar, actualizar o eliminar alumnos y sus puntajes por competencia.</p>
+            <a th:href="@{/coordinador/alumnos}">
+                <button type="button" class="btn btn-primary">Gestionar alumnos</button>
+            </a>
+        </div>
+
+        <!-- Opción 2: Informe de alumnos (estructura, sin lógica todavía) -->
+        <div class="option-card">
+            <h2>Informe de alumnos</h2>
+            <p>Visualizar todos los alumnos, sus puntajes y su promedio global.</p>
+            <a th:href="@{/coordinador/informe-alumnos}">
+                <button type="button" class="btn btn-outline">Ver informe</button>
+            </a>
+        </div>
+
+        <!-- Opción 3: Informe de beneficios (estructura, sin lógica todavía) -->
+        <div class="option-card">
+            <h2>Informe de beneficios</h2>
+            <p>Consultar si el estudiante puede graduarse y los beneficios obtenidos.</p>
+            <a th:href="@{/coordinador/informe-beneficios}">
+                <button type="button" class="btn btn-outline">Ver beneficios</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a th:href="@{/}">Cerrar sesión</a>
+    </div>
+</div>
+</body>
+</html>

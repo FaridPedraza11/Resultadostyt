@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Informe de beneficios - TYT</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            background-color: #f3f5fb;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .shell {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .btn-secondary {
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: none;
+            background: #e5e7eb;
+            color: #111827;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 18px 20px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        th, td {
+            padding: 6px 4px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: #6b7280;
+        }
+
+        .estado-paso {
+            font-weight: 600;
+            color: #166534;
+        }
+
+        .estado-nopaso {
+            font-weight: 600;
+            color: #b91c1c;
+        }
+
+        .empty-msg {
+            font-size: 13px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+
+    <div class="header">
+        <div>
+            <div class="title">Informe de beneficios</div>
+            <div class="subtitle">
+                Consulta si el estudiante puede graduarse y qué beneficios obtiene según su puntaje global.
+            </div>
+        </div>
+        <a th:href="@{/coordinador/dashboard}" style="text-decoration:none;">
+            <button class="btn-secondary" type="button">Volver al panel</button>
+        </a>
+    </div>
+
+    <div class="card">
+        <div th:if="${#lists.isEmpty(alumnos)}" class="empty-msg">
+            No hay alumnos registrados. Primero debes crear alumnos desde la opción "Gestión de alumnos".
+        </div>
+
+        <div th:if="${!#lists.isEmpty(alumnos)}">
+            <table>
+                <thead>
+                <tr>
+                    <th>Documento</th>
+                    <th>Nombre</th>
+                    <th>Registro</th>
+                    <th>Puntaje global</th>
+                    <th>¿Puede graduarse?</th>
+                    <th>Beneficio</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="al : ${alumnos}">
+                    <td th:text="${al.numeroDocumento}">123</td>
+                    <td th:text="${al.nombresApellidos}">Nombre Apellido</td>
+                    <td th:text="${al.numeroRegistro}">REG-001</td>
+                    <td th:text="${al.promedioGlobal}">0.0</td>
+
+                    <td th:text="${al.estadoGraduacion}"
+                        th:classappend="${al.estadoGraduacion}=='Pasó' ? ' estado-paso' : ' estado-nopaso'">
+                        Pasó
+                    </td>
+
+                    <td th:text="${al.beneficio}">
+                        Sin beneficio especial.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
